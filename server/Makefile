@@ -21,7 +21,6 @@ package-dependencies:
   && cp ${LIB_DIR}/lib/libboost_timer* ${TMP_DIR}/deps \
   && cp ${LIB_DIR}/lib/librocksdb* ${TMP_DIR}/deps \
   && cp ${LIB_DIR}/lib/libzmq* ${TMP_DIR}/deps \
-  # && cp /usr/lib/x86_64-linux-gnu/libnuma* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
   && cp ${LIB_DIR}/lib/libmongo* ${TMP_DIR}/localdep \
