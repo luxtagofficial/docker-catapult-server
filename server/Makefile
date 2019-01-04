@@ -32,6 +32,7 @@ production:
 	@echo "→ packaging catapult for production"
 	mkdir -p ${WORKDIR}/bin/ \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
+	&& cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
 	&& cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/
 	@echo "✔ Done!"
