@@ -9,30 +9,31 @@ install:
 package-dependencies:
 	@echo "→ moving dependencies"
 	mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
-  && cp ${LIB_DIR}/lib/libboost_atomic* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_chrono* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_date_time* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_filesystem* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_log* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_program_options* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_regex* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_system* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_thread* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libboost_timer* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/librocksdb* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libzmq* ${TMP_DIR}/deps \
-  && cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
-  && cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
-  && cp ${LIB_DIR}/lib/libmongo* ${TMP_DIR}/localdep \
-  && cp ${LIB_DIR}/lib/libbson* ${TMP_DIR}/localdep
+	&& cp ${LIB_DIR}/lib/libboost_atomic* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_chrono* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_date_time* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_filesystem* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_log* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_program_options* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_regex* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_system* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_thread* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libboost_timer* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/librocksdb* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libzmq* ${TMP_DIR}/deps \
+	&& cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
+	&& cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
+	&& cp ${LIB_DIR}/lib/libmongo* ${TMP_DIR}/localdep \
+	&& cp ${LIB_DIR}/lib/libbson* ${TMP_DIR}/localdep
 	@echo "✔ Done!"
 
 production:
 	make package-dependencies
 	@echo "→ packaging catapult for production"
-	cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/
-	cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/
-	cp ${TMP_DIR}/catapult-server/_build/bin/boost* ${WORKDIR}/bin/boost
+	mkdir -p ${WORKDIR}/bin/ \
+	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
+	&& cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
+	&& cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/
 	@echo "✔ Done!"
 
 install-catapult:
