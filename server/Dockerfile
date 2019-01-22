@@ -19,7 +19,7 @@ FROM ubuntu:18.04
 
 ARG WORK_DIR=/catapult
 
-RUN mkdir -p /catapult/bin/deps
+RUN mkdir -p ${WORK_DIR}/bin/deps
 
 COPY --from=builder /opt/catapult/ ${WORK_DIR}
 COPY --from=builder /tmp/deps/ ${WORK_DIR}/bin/deps

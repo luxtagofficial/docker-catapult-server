@@ -22,28 +22,28 @@ parallel-install-step-2: install-gtest install-rocksdb install-zmqlib install-mo
 install-dependencies:
 	@echo "→ installing dependencies.."
 	apt-get update -y && apt-get clean && apt-get install -y --no-install-recommends \
-	  git \
-	  wget \
-	  autoconf \
-	  automake \
-	  apt-file \
-	  build-essential \
-	  software-properties-common \
-	  pkg-config \
-	  python3 \
-	  python-dev \
-	  libc6-dev \
-    libssl-dev \
-    libsasl2-dev \
+		git \
+		wget \
+		autoconf \
+		automake \
+		apt-file \
+		build-essential \
+		software-properties-common \
+		pkg-config \
+		python3 \
+		python-dev \
+		libc6-dev \
+		libssl-dev \
+		libsasl2-dev \
 		libgflags-dev \
 		libsnappy-dev \
-	  libtool \
+		libtool \
 		gcc-7 \
 		g++-7 \
-	  && apt-get clean && rm -rf /var/lib/apt/lists/* \
-	  && rm /usr/bin/gcc /usr/bin/g++ \
-	  && ln -s /usr/bin/gcc-7 /usr/bin/gcc \
-	  && ln -s /usr/bin/g++-7 /usr/bin/g++
+		&& apt-get clean && rm -rf /var/lib/apt/lists/* \
+		&& rm /usr/bin/gcc /usr/bin/g++ \
+		&& ln -s /usr/bin/gcc-7 /usr/bin/gcc \
+		&& ln -s /usr/bin/g++-7 /usr/bin/g++
 
 install-cmake:
 	@echo "→ installing: cmake v3.11.1"
@@ -70,7 +70,7 @@ install-gtest:
 
 	cd ${TMP_DIR}/googletest && mkdir -p googletest/_build \
 		&& cd googletest/_build \
-	  && cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/googletest
 	@echo "✔ done: gtest release-1.8.0 is installed"
 
@@ -80,7 +80,7 @@ install-rocksdb:
 		&& git clone https://github.com/facebook/rocksdb.git -b v5.12.4 --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/rocksdb/_build && cd ${TMP_DIR}/rocksdb/_build \
-	  && cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/rocksdb
 	@echo "✔ done: rocksdb v5.12.4"
 
@@ -90,7 +90,7 @@ install-zmqlib:
 		&& git clone https://github.com/zeromq/libzmq.git -b v4.2.3 --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/libzmq/_build && cd ${TMP_DIR}/libzmq/_build \
-	  && cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/libzmq
 	@echo "✔ done: zmqlib v4.2.3 is installed"
 
@@ -100,7 +100,7 @@ install-cppzmq:
 		&& git clone https://github.com/zeromq/cppzmq.git -b v4.2.3 --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/cppzmq/_build && cd ${TMP_DIR}/cppzmq/_build \
-	  && cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/cppzmq
 	@echo "✔ done: cppzmq v4.2.3 is installed"
 
@@ -111,7 +111,7 @@ install-mongoc:
 
 	cd ${TMP_DIR}/mongo-c-driver/build \
 		&& cmake -DCMAKE_BUILD_TYPE="Release" -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
-	  && make -j4 && make install \
+		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-c-driver
 	@echo "✔ done: mongoc 1.11.0 is installed"
 
@@ -121,7 +121,7 @@ install-mongocxx:
 		&& git clone https://github.com/mongodb/mongo-cxx-driver.git -b releases/v3.3 --depth 1; fi
 
 	cd ${TMP_DIR}/mongo-cxx-driver/build \
-	  && cmake -DBSONCXX_POLY_USE_BOOST=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
-	  && make -j4 && make install \
+		&& cmake -DBSONCXX_POLY_USE_BOOST=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-cxx-driver
 	@echo "✔ done: mongocxx r3.3 is installed"

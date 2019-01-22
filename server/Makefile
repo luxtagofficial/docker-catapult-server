@@ -30,7 +30,7 @@ package-dependencies:
 production:
 	make package-dependencies
 	@echo "→ packaging catapult for production"
-	mkdir -p ${WORKDIR}/bin/ \
+	mkdir -p ${WORKDIR}/bin/boost \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
@@ -43,11 +43,11 @@ install-catapult:
 		&& git clone https://github.com/nemtech/catapult-server.git -b master --depth 1; fi
 
 	cd ${TMP_DIR}/catapult-server && mkdir -p _build && cd _build \
-  	&& cmake -DCMAKE_BUILD_TYPE=Release \
-	    -DCMAKE_CXX_FLAGS="-pthread" \
-	    -DPYTHON_EXECUTABLE=/usr/bin/python3 \
-	    -DBSONCXX_LIB=${LIB_DIR}/lib/libbsoncxx.so \
-	    -DMONGOCXX_LIB=${LIB_DIR}/lib/libmongocxx.so \
-	    .. \
-  	&& make publish && make -j4
+		&& cmake -DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_CXX_FLAGS="-pthread" \
+			-DPYTHON_EXECUTABLE=/usr/bin/python3 \
+			-DBSONCXX_LIB=${LIB_DIR}/lib/libbsoncxx.so \
+			-DMONGOCXX_LIB=${LIB_DIR}/lib/libmongocxx.so \
+			.. \
+		&& make publish && make -j4
 	@echo "✔ done: catapult (master) is installed"
