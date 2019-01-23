@@ -16,7 +16,7 @@ You can build the toolchain or use our precompiled bundle. If you want to use th
 #### Building the toolchain
 
 ```
-# cd toolchain/
+$ cd toolchain/
 $ docker build -t nem-catapult-toolchain .
 ```
 
