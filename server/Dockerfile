@@ -1,4 +1,4 @@
-FROM luxtagofficial/catapult-toolchain:0.2.0.2 as builder
+FROM luxtagofficial/catapult-toolchain:0.3.0.2 as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
@@ -52,6 +52,8 @@ RUN mkdir -p ${WORKDIR}/bin/boost \
 	&& cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/
 
 FROM ubuntu:18.04
+
+LABEL MAINTAINER="Jonathan Tey <jonathan@luxtag.io>"
 
 COPY --from=builder /opt/catapult /catapult
 COPY --from=builder /tmp/deps /usr/lib/x86_64-linux-gnu
