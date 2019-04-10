@@ -14,7 +14,7 @@ install:
 parallel-install: install-cmake install-boost
 	make parallel-install-step-2
 
-parallel-install-step-2: install-gtest install-googlebenchmark install-rocksdb install-zmqlib install-mongoc install-mongocxx
+parallel-install-step-2: install-gtest install-googlebenchmark install-rocksdb install-libzmq install-mongoc install-mongocxx
 	make install-cppzmq
 	@echo "✔ parallel-step-2 completed"
 
@@ -26,7 +26,6 @@ install-dependencies:
 		wget \
 		autoconf \
 		automake \
-		apt-file \
 		build-essential \
 		gcc-7 \
 		g++-7 \
@@ -58,49 +57,58 @@ install-cmake:
 	@echo "✔ done: cmake v3.11.1 is installed"
 
 install-boost:
-	@echo "→ installing: boost 1.65.1"
-	if [ ! -d ${TMP_DIR}/boost_1_65_1 ]; then cd ${TMP_DIR} \
-		&& wget https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.gz \
-		&& tar xzf boost_1_65_1.tar.gz; fi
+	@echo "→ installing: boost 1.69.0"
+	if [ ! -d ${TMP_DIR}/boost_1_69_0 ]; then cd ${TMP_DIR} \
+		&& wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz \
+		&& tar xzf boost_1_69_0.tar.gz; fi
 
-	cd ${TMP_DIR}/boost_1_65_1 && ./bootstrap.sh && ./b2 toolset=gcc install --prefix=${LIB_DIR} -j4 \
-		&& rm -r ${TMP_DIR}/boost_1_65_1
-	@echo "✔ done: boost 1.65.1 is installed"
+	cd ${TMP_DIR}/boost_1_69_0 && ./bootstrap.sh && ./b2 toolset=gcc install --prefix=${LIB_DIR} -j4 \
+		&& rm -r ${TMP_DIR}/boost_1_69_0
+	@echo "✔ done: boost 1.69.0 is installed"
 
 install-gtest:
 	@echo "→ installing: gtest release-1.8.0"
-	if [ ! -d ${TMP_DIR}/googletest ]; then cd ${TMP_DIR} && git clone https://github.com/google/googletest.git -b release-1.8.0 --depth 1; fi
+	if [ ! -d ${TMP_DIR}/googletest ]; then cd ${TMP_DIR} \
+		&& git clone https://github.com/google/googletest.git -b release-1.8.0 --depth 1; fi
 
-	cd ${TMP_DIR}/googletest && mkdir -p ${TMP_DIR}/googletest/_build \
+	mkdir -p ${TMP_DIR}/googletest/_build \
 		&& cd ${TMP_DIR}/googletest/_build \
-		&& cmake -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/googletest
 	@echo "✔ done: gtest release-1.8.0 is installed"
 
 install-googlebenchmark:
 	@echo "→ installing: google benchmark v1.4.1"
-	if [ ! -d ${TMP_DIR}/benchmark ]; then cd ${TMP_DIR} && git clone https://github.com/google/benchmark.git -b v1.4.1 --depth 1; fi
+	if [ ! -d ${TMP_DIR}/benchmark ]; then cd ${TMP_DIR} \
+		&& git clone https://github.com/google/benchmark.git -b v1.4.1 --depth 1; fi
 
-	cd ${TMP_DIR}/benchmark && mkdir -p ${TMP_DIR}/benchmark/_build \
+	mkdir -p ${TMP_DIR}/benchmark/_build \
 		&& cd ${TMP_DIR}/benchmark/_build \
-		&& cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_GTEST_TESTS=OFF \
-		-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. && make -j4 && make install \
+		&& cmake -DCMAKE_BUILD_TYPE=Release \
+			-DBENCHMARK_ENABLE_GTEST_TESTS=OFF \
+			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/benchmark
 	@echo "✔ done: google benchmark v1.4.1 is installed"
 
 install-rocksdb:
-	@echo "→ installing: rocksdb v5.17.2"
+	@echo "→ installing: rocksdb v5.18.3"
 	if [ ! -d ${TMP_DIR}/rocksdb ]; then cd ${TMP_DIR} \
-		&& git clone https://github.com/facebook/rocksdb.git -b v5.17.2 --depth 1; fi
+		&& git clone https://github.com/facebook/rocksdb.git -b v5.18.3 --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/rocksdb/_build && cd ${TMP_DIR}/rocksdb/_build \
-		&& cmake -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& cmake -DCMAKE_BUILD_TYPE=Release \
+			-DWITH_TESTS=OFF \
+			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/rocksdb
-	@echo "✔ done: rocksdb v5.17.2"
+	@echo "✔ done: rocksdb v5.18.3"
 
-install-zmqlib:
-	@echo "→ installing: zmqlib v4.3.1"
+install-libzmq:
+	@echo "→ installing: libzmq v4.3.1"
 	if [ ! -d ${TMP_DIR}/libzmq ]; then cd ${TMP_DIR} \
 		&& git clone https://github.com/zeromq/libzmq.git -b  v4.3.1 --depth 1; fi
 
@@ -108,7 +116,7 @@ install-zmqlib:
 		&& cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/libzmq
-	@echo "✔ done: zmqlib v4.3.1 is installed"
+	@echo "✔ done: libzmq v4.3.1 is installed"
 
 install-cppzmq:
 	@echo "→ installing: cppzmq v4.3.0"
@@ -127,7 +135,9 @@ install-mongoc:
 		&& git clone https://github.com/mongodb/mongo-c-driver.git -b 1.13.0 --depth 1; fi
 
 	cd ${TMP_DIR}/mongo-c-driver/build \
-		&& cmake -DCMAKE_BUILD_TYPE="Release" -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& cmake -DCMAKE_BUILD_TYPE="Release" \
+			-DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF \
+			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-c-driver
 	@echo "✔ done: mongoc 1.13.0 is installed"
@@ -143,7 +153,9 @@ install-mongocxx:
 		src/mongocxx/options/change_stream.cpp
 
 	cd ${TMP_DIR}/mongo-cxx-driver/build \
-		&& cmake -DBSONCXX_POLY_USE_BOOST=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& cmake -DBSONCXX_POLY_USE_BOOST=1 \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-cxx-driver
 	@echo "✔ done: mongocxx r3.4.0 is installed"

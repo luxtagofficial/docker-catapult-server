@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+LABEL MAINTAINER="Jonathan Tey <jonathan@luxtag.io>"
+
 ARG TMP_DIR=/tmp
 
 RUN mkdir -p ${TMP_DIR} \
