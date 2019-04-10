@@ -24,25 +24,21 @@ RUN cd ${TMP_DIR}/catapult-server && mkdir -p _build && cd _build \
   && make publish && make -j4
 
 RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
-	&& cp ${LIB_DIR}/lib/libboost_atomic* ${TMP_DIR}/localdep \
-	&& cp ${LIB_DIR}/lib/libboost_chrono* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libboost_date_time* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libboost_filesystem* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libboost_log* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libboost_program_options* ${TMP_DIR}/localdep \
-	&& cp ${LIB_DIR}/lib/libboost_regex* ${TMP_DIR}/localdep \
-	&& cp ${LIB_DIR}/lib/libboost_system* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libboost_thread* ${TMP_DIR}/localdep \
-	&& cp ${LIB_DIR}/lib/libboost_timer* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libbson* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libmongo* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/librocksdb* ${TMP_DIR}/localdep \
 	&& cp ${LIB_DIR}/lib/libzmq* ${TMP_DIR}/localdep \
+	&& cp /usr/lib/x86_64-linux-gnu/libcrypto* ${TMP_DIR}/deps \
 	&& cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libcrypt* ${TMP_DIR}/deps \
 	&& cp /usr/lib/x86_64-linux-gnu/libsasl2* ${TMP_DIR}/deps \
+	&& cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
 	&& cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps
+	&& cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps
 
 RUN mkdir -p ${WORKDIR}/bin/boost \
 	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
