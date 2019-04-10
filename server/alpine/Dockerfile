@@ -1,4 +1,4 @@
-FROM jtey1/catapult-toolchain:0.3.0.2-alpine as builder
+FROM luxtagofficial/catapult-toolchain:0.3.0.2-alpine as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
