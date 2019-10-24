@@ -57,14 +57,14 @@ install-cmake:
 	@echo "✔ done: cmake v3.11.1 is installed"
 
 install-boost:
-	@echo "→ installing: boost 1.69.0"
-	if [ ! -d ${TMP_DIR}/boost_1_69_0 ]; then cd ${TMP_DIR} \
-		&& wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz \
-		&& tar xzf boost_1_69_0.tar.gz; fi
+	@echo "→ installing: boost 1.65.1"
+	if [ ! -d ${TMP_DIR}/boost_1_65_1 ]; then cd ${TMP_DIR} \
+		&& wget https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.gz \
+		&& tar xzf boost_1_65_1.tar.gz; fi
 
-	cd ${TMP_DIR}/boost_1_69_0 && ./bootstrap.sh && ./b2 toolset=gcc install --prefix=${LIB_DIR} -j4 \
-		&& rm -r ${TMP_DIR}/boost_1_69_0
-	@echo "✔ done: boost 1.69.0 is installed"
+	cd ${TMP_DIR}/boost_1_65_1 && ./bootstrap.sh && ./b2 toolset=gcc install --prefix=${LIB_DIR} -j4 \
+		&& rm -r ${TMP_DIR}/boost_1_65_1
+	@echo "✔ done: boost 1.65.1 is installed"
 
 install-gtest:
 	@echo "→ installing: gtest release-1.8.0"
@@ -130,32 +130,23 @@ install-cppzmq:
 	@echo "✔ done: cppzmq v4.3.0 is installed"
 
 install-mongoc:
-	@echo "→ installing: mongoc 1.13.0"
+	@echo "→ installing: mongoc 1.4.3"
 	if [ ! -d ${TMP_DIR}/mongo-c-driver ]; then cd ${TMP_DIR} \
-		&& git clone https://github.com/mongodb/mongo-c-driver.git -b 1.13.0 --depth 1; fi
+		&& git clone https://github.com/mongodb/mongo-c-driver.git -b 1.4.3 --depth 1; fi
 
-	cd ${TMP_DIR}/mongo-c-driver/build \
-		&& cmake -DCMAKE_BUILD_TYPE="Release" \
-			-DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF \
-			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+	cd ${TMP_DIR}/mongo-c-driver \
+		&& ./autogen.sh && ./configure --disable-automatic-init-and-cleanup --prefix=${LIB_DIR} \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-c-driver
-	@echo "✔ done: mongoc 1.13.0 is installed"
+	@echo "✔ done: mongoc 1.4.3 is installed"
 
 install-mongocxx:
-	@echo "→ installing: mongocxx r3.4.0"
+	@echo "→ installing: mongocxx r3.0.2"
 	if [ ! -d ${TMP_DIR}/mongo-cxx-driver ]; then cd ${TMP_DIR} \
-		&& git clone https://github.com/mongodb/mongo-cxx-driver.git -b r3.4.0 --depth 1; fi
-
-	### apply a patch...
-	cd ${TMP_DIR}/mongo-cxx-driver \
-		&& sed -i 's/kvp("maxAwaitTimeMS", count)/kvp("maxAwaitTimeMS", static_cast<int64_t>(count))/' \
-		src/mongocxx/options/change_stream.cpp
+		&& git clone https://github.com/mongodb/mongo-cxx-driver.git -b r3.0.2 --depth 1; fi
 
 	cd ${TMP_DIR}/mongo-cxx-driver/build \
-		&& cmake -DBSONCXX_POLY_USE_BOOST=1 \
-			-DCMAKE_BUILD_TYPE=Release \
-			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
+		&& cmake -DBSONCXX_POLY_USE_BOOST=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/mongo-cxx-driver
-	@echo "✔ done: mongocxx r3.4.0 is installed"
+	@echo "✔ done: mongocxx r3.0.2 is installed"
