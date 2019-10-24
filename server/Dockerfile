@@ -1,4 +1,4 @@
-FROM luxtagofficial/catapult-toolchain:0.3.0.2 as builder
+FROM luxtagofficial/catapult-toolchain:0.1.0.1 as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
@@ -11,40 +11,42 @@ RUN mkdir -p ${WORK_PATH} \
 
 WORKDIR ${WORK_PATH}
 
-RUN if [ ! -d ${TMP_DIR}/catapult-server ]; then cd ${TMP_DIR} \
-  && git clone https://github.com/nemtech/catapult-server.git -b master --depth 1; fi
+RUN if [ ! -d ${WORK_PATH}/catapult-server ]; then cd ${WORK_PATH} \
+  && git clone https://github.com/luxtagofficial/catapult-server.git -b v0.1.0.1-modifyMaxCosignedAccounts --depth 1; fi
 
 RUN cd ${TMP_DIR}/catapult-server && mkdir -p _build && cd _build \
   && cmake -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS="-pthread" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
-		-G Ninja \
+    -DBSONCXX_LIB=/usr/local/lib64/libbsoncxx.so \
+    -DMONGOCXX_LIB=$/usr/local/lib64/libmongocxx.so \
+    -G Ninja \
     .. \
   && ninja publish && ninja -j4
 
 RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
-	&& cp /usr/lib/x86_64-linux-gnu/libcrypto* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libsasl2* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
-	&& cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libbson* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libmongo* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/librocksdb* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libzmq* ${TMP_DIR}/localdep
+  && cp /usr/lib/x86_64-linux-gnu/libcrypto* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libsasl2* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
+  && cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libbson* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libmongo* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/librocksdb* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libzmq* ${TMP_DIR}/localdep
 
 RUN mkdir -p ${WORKDIR}/bin/boost \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
-	&& cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/ \
-	&& cp -r ${TMP_DIR}/catapult-server/resources ${WORKDIR}/
+  && cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
+  && cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
+  && cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
+  && cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/ \
+  && cp -r ${TMP_DIR}/catapult-server/resources ${WORKDIR}/
 
 FROM ubuntu:18.04
 

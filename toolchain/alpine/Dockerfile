@@ -13,6 +13,9 @@ RUN mkdir -p ${TMP_DIR} \
   git \
   make \
   linux-headers \
+  libtool \
+  autoconf \
+  automake \
   snappy-dev
 
 WORKDIR ${TMP_DIR}
