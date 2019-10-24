@@ -1,4 +1,4 @@
-FROM luxtagofficial/catapult-toolchain:0.3.0.2 as builder
+FROM luxtagofficial/catapult-toolchain:0.8.0.1 as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
