@@ -13,10 +13,13 @@ WORKDIR ${WORK_PATH}
 RUN if [ ! -d ${WORK_PATH}/catapult-server ]; then cd ${WORK_PATH} \
   && git clone https://github.com/nemtech/catapult-server.git -b master --depth 1; fi
 
-RUN cd ${WORK_PATH}/catapult-server && mkdir -p _build && cd _build \
+RUN cd ${WORK_PATH}/catapult-server && \
+  sed -i 's/$ENV{BOOST_ROOT}/${BOOST_ROOT}/' CMakeLists.txt && \
+  mkdir -p _build && cd _build \
   && cmake -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS="-pthread" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+    -DBOOST_ROOT=${LIB_DIR} \
 		-G Ninja \
     .. \
   && ninja publish && ninja -j4

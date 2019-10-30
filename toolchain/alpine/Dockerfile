@@ -12,6 +12,7 @@ RUN mkdir -p ${TMP_DIR} \
   g++ \
   git \
   make \
+  python3 \
   linux-headers \
   snappy-dev
 

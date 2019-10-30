@@ -97,7 +97,7 @@ install-googlebenchmark:
 install-rocksdb:
 	@echo "→ installing: rocksdb v6.2.4"
 	if [ ! -d ${TMP_DIR}/rocksdb ]; then cd ${TMP_DIR} \
-		&& git clone https://github.com/facebook/rocksdb.git -b v6.2.4 --depth 1; fi
+		&& git clone https://github.com/nemtech/rocksdb.git -b v6.2.4-nem --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/rocksdb/_build && cd ${TMP_DIR}/rocksdb/_build \
 		&& cmake -DCMAKE_BUILD_TYPE=Release \
