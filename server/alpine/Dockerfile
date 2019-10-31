@@ -6,12 +6,12 @@ ARG WORKDIR=/opt/catapult
 
 RUN mkdir -p ${WORK_PATH} \
   && apk update \
-  && apk add --no-cache ninja python3
+  && apk add --no-cache ninja
 
 WORKDIR ${WORK_PATH}
 
 RUN if [ ! -d ${WORK_PATH}/catapult-server ]; then cd ${WORK_PATH} \
-  && git clone https://github.com/nemtech/catapult-server.git -b master --depth 1; fi
+  && git clone https://github.com/nemtech/catapult-server.git -b v${CATAPULT_VERSION} --depth 1; fi
 
 RUN cd ${WORK_PATH}/catapult-server && \
   sed -i 's/$ENV{BOOST_ROOT}/${BOOST_ROOT}/' CMakeLists.txt && \
@@ -48,6 +48,7 @@ RUN mkdir -p ${WORKDIR}/bin/boost \
 FROM alpine:latest
 
 LABEL MAINTAINER="Jonathan Tey <jonathan@luxtag.io>"
+LABEL CATAPULT_VERSION=${CATAPULT_VERSION}
 
 COPY --from=builder /opt/catapult /catapult
 COPY --from=builder /tmp/deps /usr/lib/

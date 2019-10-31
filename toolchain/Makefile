@@ -7,7 +7,6 @@ clean:
 
 ### installation overview ###
 install:
-	make install-dependencies
 	make parallel-install
 	@echo "✔ Done!"
 
@@ -19,34 +18,6 @@ parallel-install-step-2: install-gtest install-googlebenchmark install-rocksdb i
 	@echo "✔ parallel-step-2 completed"
 
 ### installation details ###
-install-dependencies:
-	@echo "→ installing dependencies.."
-	apt-get update -y && apt-get clean && apt-get install -y --no-install-recommends \
-		git \
-		wget \
-		autoconf \
-		automake \
-		build-essential \
-		gcc-7 \
-		g++-7 \
-		libatomic-ops-dev \
-		libc6-dev \
-		libunwind-dev \
-		libgflags-dev \
-		libsasl2-dev \
-		libssl-dev \
-		libsnappy-dev \
-		libtool \
-		pkg-config \
-		python3 \
-		python-dev \
-		software-properties-common \
-		xz-utils \
-		&& apt-get clean && rm -rf /var/lib/apt/lists/* \
-		&& rm /usr/bin/gcc /usr/bin/g++ \
-		&& ln -s /usr/bin/gcc-7 /usr/bin/gcc \
-		&& ln -s /usr/bin/g++-7 /usr/bin/g++
-
 install-cmake:
 	@echo "→ installing: cmake v3.15.5"
 	if [ ! -d ${TMP_DIR}/cmake ]; then cd ${TMP_DIR} \

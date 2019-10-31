@@ -12,7 +12,7 @@ RUN mkdir -p ${WORK_PATH} \
 WORKDIR ${WORK_PATH}
 
 RUN if [ ! -d ${TMP_DIR}/catapult-server ]; then cd ${TMP_DIR} \
-  && git clone https://github.com/nemtech/catapult-server.git -b master --depth 1; fi
+  && git clone https://github.com/nemtech/catapult-server.git -b v${CATAPULT_VERSION} --depth 1; fi
 
 RUN cd ${TMP_DIR}/catapult-server && \
   sed -i 's/$ENV{BOOST_ROOT}/${BOOST_ROOT}/' CMakeLists.txt && \
@@ -52,7 +52,7 @@ RUN mkdir -p ${WORKDIR}/bin/boost \
 FROM ubuntu:18.04
 
 LABEL MAINTAINER="Jonathan Tey <jonathan@luxtag.io>"
-LABEL CATAPULT_VERSION="0.8.0.3"
+LABEL CATAPULT_VERSION=${CATAPULT_VERSION}
 
 COPY --from=builder /opt/catapult /catapult
 COPY --from=builder /tmp/deps /usr/lib/x86_64-linux-gnu

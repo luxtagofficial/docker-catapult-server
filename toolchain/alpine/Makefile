@@ -7,16 +7,24 @@ clean:
 
 ### installation overview ###
 install:
-	make install-dependencies
 	make parallel-install
 	@echo "✔ Done!"
 
-parallel-install: install-boost
+parallel-install: install-cmake install-boost
 	make parallel-install-step-2
 
 parallel-install-step-2: install-gtest install-googlebenchmark install-rocksdb install-libzmq install-mongoc install-mongocxx
 	make install-cppzmq
 	@echo "✔ parallel-step-2 completed"
+
+install-cmake:
+	@echo "→ installing: cmake v3.15.5"
+	if [ ! -d ${TMP_DIR}/cmake ]; then cd ${TMP_DIR} \
+		&& git clone https://gitlab.kitware.com/cmake/cmake.git -b v3.15.5 --depth 1; fi
+
+	cd ${TMP_DIR}/cmake && ./bootstrap --prefix=${LIB_DIR} && make -j4 && make install \
+		&& rm -r ${TMP_DIR}/cmake
+	@echo "✔ done: cmake v3.15.5 is installed"
 
 install-boost:
 	@echo "→ installing: boost 1.71.0"
