@@ -52,6 +52,7 @@ RUN mkdir -p ${WORKDIR}/bin/boost \
 FROM ubuntu:18.04
 
 LABEL MAINTAINER="Jonathan Tey <jonathan@luxtag.io>"
+LABEL CATAPULT_VERSION="0.8.0.3"
 
 COPY --from=builder /opt/catapult /catapult
 COPY --from=builder /tmp/deps /usr/lib/x86_64-linux-gnu

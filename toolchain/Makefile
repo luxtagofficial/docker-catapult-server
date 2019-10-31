@@ -48,13 +48,13 @@ install-dependencies:
 		&& ln -s /usr/bin/g++-7 /usr/bin/g++
 
 install-cmake:
-	@echo "→ installing: cmake v3.11.1"
+	@echo "→ installing: cmake v3.15.5"
 	if [ ! -d ${TMP_DIR}/cmake ]; then cd ${TMP_DIR} \
-		&& git clone https://gitlab.kitware.com/cmake/cmake.git -b v3.11.1 --depth 1; fi
+		&& git clone https://gitlab.kitware.com/cmake/cmake.git -b v3.15.5 --depth 1; fi
 
 	cd ${TMP_DIR}/cmake && ./bootstrap --prefix=${LIB_DIR} && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/cmake
-	@echo "✔ done: cmake v3.11.1 is installed"
+	@echo "✔ done: cmake v3.15.5 is installed"
 
 install-boost:
 	@echo "→ installing: boost 1.71.0"
@@ -62,7 +62,9 @@ install-boost:
 		&& wget https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz \
 		&& tar xzf boost_1_71_0.tar.gz; fi
 
-	cd ${TMP_DIR}/boost_1_71_0 && ./bootstrap.sh && ./b2 toolset=gcc install --prefix=${LIB_DIR} -j4 \
+	cd ${TMP_DIR}/boost_1_71_0 && ./bootstrap.sh --prefix=${LIB_DIR} \
+		&& ./b2 --prefix=${LIB_DIR} -j4 stage release \
+		&& ./b2 install --prefix=${LIB_DIR} -j4 \
 		&& rm -r ${TMP_DIR}/boost_1_71_0
 	@echo "✔ done: boost 1.71.0 is installed"
 
