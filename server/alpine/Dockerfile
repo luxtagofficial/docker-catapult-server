@@ -20,30 +20,32 @@ RUN cd ${WORK_PATH}/catapult-server && \
     -DCMAKE_CXX_FLAGS="-pthread" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
     -DBOOST_ROOT=${LIB_DIR} \
-		-G Ninja \
+    -DUSE_KECCAK=${USE_KECCAK:-false} \
+    -DCATAPULT_BUILD_RELEASE=true \
+    -G Ninja \
     .. \
   && ninja publish && ninja -j4
 
 RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep && mkdir -p ${TMP_DIR}/localdep64 \
-	&& cp /usr/lib/libgcc* ${TMP_DIR}/deps \
-	&& cp /usr/lib/libstdc++* ${TMP_DIR}/deps \
-	&& cp /usr/local/lib/libboost_chrono* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib64/libbson* ${TMP_DIR}/localdep64 \
-	&& cp /usr/local/lib64/libmongo* ${TMP_DIR}/localdep64 \
-	&& cp /usr/local/lib64/librocksdb* ${TMP_DIR}/localdep64 \
-	&& cp /usr/local/lib64/libzmq* ${TMP_DIR}/localdep64
+  && cp /usr/lib/libgcc* ${TMP_DIR}/deps \
+  && cp /usr/lib/libstdc++* ${TMP_DIR}/deps \
+  && cp /usr/local/lib/libboost_chrono* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib64/libbson* ${TMP_DIR}/localdep64 \
+  && cp /usr/local/lib64/libmongo* ${TMP_DIR}/localdep64 \
+  && cp /usr/local/lib64/librocksdb* ${TMP_DIR}/localdep64 \
+  && cp /usr/local/lib64/libzmq* ${TMP_DIR}/localdep64
 
 RUN mkdir -p ${WORKDIR}/bin/boost \
-	&& cp ${WORK_PATH}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
-	&& cp ${WORK_PATH}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
-	&& cp ${WORK_PATH}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
-	&& cp -r ${WORK_PATH}/catapult-server/resources ${WORKDIR}/ \
-	&& cp -r ${WORK_PATH}/catapult-server/_build/bin/boost ${WORKDIR}/bin/
+  && cp ${WORK_PATH}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
+  && cp ${WORK_PATH}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
+  && cp ${WORK_PATH}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
+  && cp -r ${WORK_PATH}/catapult-server/resources ${WORKDIR}/ \
+  && cp -r ${WORK_PATH}/catapult-server/_build/bin/boost ${WORKDIR}/bin/
 
 FROM alpine:latest
 

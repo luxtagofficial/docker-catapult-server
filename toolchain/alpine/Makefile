@@ -93,6 +93,11 @@ install-cppzmq:
 	if [ ! -d ${TMP_DIR}/cppzmq ]; then cd ${TMP_DIR} \
 		&& git clone https://github.com/zeromq/cppzmq.git -b v4.4.1 --depth 1; fi
 
+	### apply a patch...
+	cd ${TMP_DIR}/cppzmq \
+		&& sed -i 's/catch_discover_tests(unit_tests)//' \
+		tests/CMakeLists.txt
+
 	mkdir -p ${TMP_DIR}/cppzmq/_build && cd ${TMP_DIR}/cppzmq/_build \
 		&& cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \

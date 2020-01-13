@@ -34,5 +34,5 @@ FROM nem-catapult-toolchain as builder
 
 ```
 $ cd server
-$ docker build -t nem-catapult .
+$ docker build --build-arg CATAPULT_VERSION=master --build-arg USE_KECCAK=false -t nem-catapult .
 ```

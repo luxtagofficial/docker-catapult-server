@@ -21,33 +21,35 @@ RUN cd ${TMP_DIR}/catapult-server && \
     -DCMAKE_CXX_FLAGS="-pthread" \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
     -DBOOST_ROOT=${LIB_DIR} \
-		-G Ninja \
+    -DUSE_KECCAK=${USE_KECCAK:-false} \
+    -DCATAPULT_BUILD_RELEASE=true \
+    -G Ninja \
     .. \
   && ninja publish && ninja -j4
 
 RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
-	&& cp /usr/lib/x86_64-linux-gnu/libcrypto* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libsasl2* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
-	&& cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
-	&& cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libbson* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libmongo* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/librocksdb* ${TMP_DIR}/localdep \
-	&& cp /usr/local/lib/libzmq* ${TMP_DIR}/localdep
+  && cp /usr/lib/x86_64-linux-gnu/libcrypto* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libgflags* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libsasl2* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
+  && cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_program_options* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libboost_thread* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libbson* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libmongo* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/librocksdb* ${TMP_DIR}/localdep \
+  && cp /usr/local/lib/libzmq* ${TMP_DIR}/localdep
 
 RUN mkdir -p ${WORKDIR}/bin/boost \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
-	&& cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
-	&& cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/ \
-	&& cp -r ${TMP_DIR}/catapult-server/resources ${WORKDIR}/
+  && cp ${TMP_DIR}/catapult-server/_build/bin/catapult* ${WORKDIR}/bin/ \
+  && cp ${TMP_DIR}/catapult-server/_build/bin/libcatapult* ${WORKDIR}/bin/ \
+  && cp ${TMP_DIR}/catapult-server/_build/bin/libextension* ${WORKDIR}/bin/ \
+  && cp -r ${TMP_DIR}/catapult-server/_build/bin/boost ${WORKDIR}/bin/ \
+  && cp -r ${TMP_DIR}/catapult-server/resources ${WORKDIR}/
 
 FROM ubuntu:18.04
 
