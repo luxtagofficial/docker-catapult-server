@@ -1,4 +1,4 @@
-FROM node:8.15.0-alpine as builder
+FROM node:10.18.0-alpine as builder
 
 RUN apk add --update\
   git \
@@ -10,7 +10,7 @@ RUN apk add --update\
 
 WORKDIR /tmp
 
-RUN git clone https://github.com/jontey/catapult-rest.git -b master --depth 1
+RUN git clone https://github.com/nemtech/catapult-rest.git -b master --depth 1
 
 RUN cd /tmp/catapult-rest/catapult-sdk \
   && yarn install \
@@ -20,7 +20,7 @@ RUN cd /tmp/catapult-rest/rest \
   && yarn install \
   && yarn build
 
-FROM node:8.15.0-alpine
+FROM node:10.18.0-alpine
 
 ARG SOURCE_DIR=/tmp/catapult-rest
 

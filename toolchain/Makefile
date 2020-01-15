@@ -19,13 +19,13 @@ parallel-install-step-2: install-gtest install-googlebenchmark install-rocksdb i
 
 ### installation details ###
 install-cmake:
-	@echo "→ installing: cmake v3.15.5"
+	@echo "→ installing: cmake v3.15.4"
 	if [ ! -d ${TMP_DIR}/cmake ]; then cd ${TMP_DIR} \
-		&& git clone https://gitlab.kitware.com/cmake/cmake.git -b v3.15.5 --depth 1; fi
+		&& git clone https://gitlab.kitware.com/cmake/cmake.git -b v3.15.4 --depth 1; fi
 
 	cd ${TMP_DIR}/cmake && ./bootstrap --prefix=${LIB_DIR} && make -j4 && make install \
 		&& rm -r ${TMP_DIR}/cmake
-	@echo "✔ done: cmake v3.15.5 is installed"
+	@echo "✔ done: cmake v3.15.4 is installed"
 
 install-boost:
 	@echo "→ installing: boost 1.71.0"

@@ -10,8 +10,9 @@ RUN mkdir -p ${TMP_DIR} \
 		autoconf \
 		automake \
 		build-essential \
-		g++-7 \
-		gcc-7 \
+		g++-9 \
+		gcc-9 \
+		gdb \
 		git \
 		libatomic-ops-dev \
 		libc6-dev \
@@ -21,6 +22,8 @@ RUN mkdir -p ${TMP_DIR} \
 		libssl-dev \
 		libtool \
 		libunwind-dev \
+		libxml2-dev \
+		libxslt-dev \
 		make \
 		pkg-config \
 		python-dev \
@@ -30,8 +33,8 @@ RUN mkdir -p ${TMP_DIR} \
 		xz-utils \
 		&& apt-get clean && rm -rf /var/lib/apt/lists/* \
 		&& rm /usr/bin/gcc /usr/bin/g++ \
-		&& ln -s /usr/bin/gcc-7 /usr/bin/gcc \
-		&& ln -s /usr/bin/g++-7 /usr/bin/g++
+		&& ln -s /usr/bin/gcc-9 /usr/bin/gcc \
+		&& ln -s /usr/bin/g++-9 /usr/bin/g++
 
 WORKDIR ${TMP_DIR}
 
