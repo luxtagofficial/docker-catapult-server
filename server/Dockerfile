@@ -1,4 +1,6 @@
-FROM luxtagofficial/catapult-toolchain:0.8.0.1 as builder
+ARG CATAPULT_VERSION
+
+FROM luxtagofficial/catapult-toolchain:${CATAPULT_VERSION} as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
@@ -34,6 +36,7 @@ RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
   && cp /usr/lib/x86_64-linux-gnu/libsnappy* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libicuuc* ${TMP_DIR}/deps \
   && cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
   && cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
   && cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \

@@ -7,7 +7,6 @@ ARG TMP_DIR=/tmp
 RUN mkdir -p ${TMP_DIR} \
   && apk update \
   && apk --no-cache add \
-  curl \
   g++ \
   git \
   linux-headers \

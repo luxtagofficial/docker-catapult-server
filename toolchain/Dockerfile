@@ -10,8 +10,8 @@ RUN mkdir -p ${TMP_DIR} \
 		autoconf \
 		automake \
 		build-essential \
-		g++-9 \
-		gcc-9 \
+		g++-7 \
+		gcc-7 \
 		gdb \
 		git \
 		libatomic-ops-dev \
@@ -33,8 +33,8 @@ RUN mkdir -p ${TMP_DIR} \
 		xz-utils \
 		&& apt-get clean && rm -rf /var/lib/apt/lists/* \
 		&& rm /usr/bin/gcc /usr/bin/g++ \
-		&& ln -s /usr/bin/gcc-9 /usr/bin/gcc \
-		&& ln -s /usr/bin/g++-9 /usr/bin/g++
+		&& ln -s /usr/bin/gcc-7 /usr/bin/gcc \
+		&& ln -s /usr/bin/g++-7 /usr/bin/g++
 
 WORKDIR ${TMP_DIR}
 

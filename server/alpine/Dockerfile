@@ -3,6 +3,7 @@ FROM luxtagofficial/catapult-toolchain:0.8.0.1-alpine as builder
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
 ARG WORKDIR=/opt/catapult
+ARG CATAPULT_VERSION
 
 RUN mkdir -p ${WORK_PATH} \
   && apk update \
