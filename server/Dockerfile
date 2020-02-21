@@ -36,6 +36,7 @@ RUN mkdir -p ${TMP_DIR}/deps && mkdir -p ${TMP_DIR}/localdep \
   && cp /usr/lib/x86_64-linux-gnu/libssl* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libstdc* ${TMP_DIR}/deps \
   && cp /usr/lib/x86_64-linux-gnu/libicuuc* ${TMP_DIR}/deps \
+  && cp /usr/lib/x86_64-linux-gnu/libicudata* ${TMP_DIR}/deps \
   && cp /usr/local/lib/libboost_date_time* ${TMP_DIR}/localdep \
   && cp /usr/local/lib/libboost_filesystem* ${TMP_DIR}/localdep \
   && cp /usr/local/lib/libboost_log* ${TMP_DIR}/localdep \
