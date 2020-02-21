@@ -1,11 +1,10 @@
-ARG CATAPULT_VERSION
-
-FROM luxtagofficial/catapult-toolchain:${CATAPULT_VERSION} as builder
+FROM luxtagofficial/catapult-toolchain:0.9.1.1 as builder
 
 ARG WORK_PATH=/tmp
 ARG TMP_DIR=/tmp
 ARG LIB_DIR=/usr/local
 ARG WORKDIR=/opt/catapult
+ARG CATAPULT_VERSION
 
 RUN mkdir -p ${WORK_PATH} \
   && apt-get update -y \
