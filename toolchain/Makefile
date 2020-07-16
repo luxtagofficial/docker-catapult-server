@@ -34,7 +34,7 @@ install-boost:
 		&& tar xzf boost_1_71_0.tar.gz; fi
 
 	cd ${TMP_DIR}/boost_1_71_0 && ./bootstrap.sh --prefix=${LIB_DIR} \
-		&& ./b2 --prefix=${LIB_DIR} -j4 stage release \
+		&& ./b2 --without-python --prefix=${LIB_DIR} -j4 stage release \
 		&& ./b2 install --prefix=${LIB_DIR} -j4 \
 		&& rm -r ${TMP_DIR}/boost_1_71_0
 	@echo "✔ done: boost 1.71.0 is installed"
@@ -68,9 +68,9 @@ install-googlebenchmark:
 	@echo "✔ done: google benchmark v1.5.0 is installed"
 
 install-rocksdb:
-	@echo "→ installing: rocksdb v6.2.4"
+	@echo "→ installing: rocksdb v6.6.4"
 	if [ ! -d ${TMP_DIR}/rocksdb ]; then cd ${TMP_DIR} \
-		&& git clone https://github.com/nemtech/rocksdb.git -b v6.2.4-nem --depth 1; fi
+		&& git clone https://github.com/nemtech/rocksdb.git -b v6.6.4-nem --depth 1; fi
 
 	mkdir -p ${TMP_DIR}/rocksdb/_build && cd ${TMP_DIR}/rocksdb/_build \
 		&& cmake -DCMAKE_BUILD_TYPE=Release \
@@ -78,7 +78,7 @@ install-rocksdb:
 			-DCMAKE_INSTALL_PREFIX=${LIB_DIR} .. \
 		&& make -j4 && make install \
 		&& rm -r ${TMP_DIR}/rocksdb
-	@echo "✔ done: rocksdb v6.2.4"
+	@echo "✔ done: rocksdb v6.6.4"
 
 install-libzmq:
 	@echo "→ installing: libzmq v4.3.2"

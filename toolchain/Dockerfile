@@ -28,6 +28,7 @@ RUN mkdir -p ${TMP_DIR} \
 		pkg-config \
 		python-dev \
 		python3 \
+		python3-ply \
 		software-properties-common \
 		wget \
 		xz-utils \
